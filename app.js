@@ -25,9 +25,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api', routes);
 
 app.use(function (req, res, next) {
-    var token = req.body.token || req.query.token || req.headers['x-access-token'];
 
-    if (token) {
+    //var token = req.body.token || req.query.token || req.headers['x-access-token'];
+    var token =  req.headers['authorization'].split('Bearer ')[1];
+    
+
+
+    if (token && token.trim()) {
         // verifies secret and checks exp
         jwt.verify(token, config.jwtSecret, function (err, decoded) {
             if (err) {
