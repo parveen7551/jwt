@@ -1,4 +1,5 @@
 const {SHA256} = require('crypto-js');
+const jwt  = require('jsonwebtoken');
 var message = 'sample user test';
 var hash = SHA256(message).toString();
 console.log(`message: ${message}`);
@@ -7,7 +8,9 @@ var data  = {
     id:4
 }
 
-var token = {
+
+
+/*var token = {
     data,
     hash:SHA256(JSON.stringify(data) + 'mysecretkey').toString()
 }
@@ -20,4 +23,11 @@ if(resultHash === token.hash) {
     console.log("Data part not changed.");
 } else {
     console.log("Data part is changed. Do not trust the user.");
-}
+}*/
+
+//sample with jsonwebtoken
+var token = jwt.sign(data,'mysecret');
+console.log(token);
+var decoded = jwt.verify(token , 'mysecret');
+console.log(decoded);
+
